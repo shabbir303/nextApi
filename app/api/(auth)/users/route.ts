@@ -76,5 +76,31 @@ export const PATCH = async (request: Request) => {
 
 
 export const DELETE = async(request:Request)=>{
+    try{
+        const {searchParams} = new URL(request.url);
+        const userId = searchParams.get("userId");
+        if (!userId) {
+            return new NextResponse("id  not found", { status: 404 });
+          }
+          if(!Types.ObjectId.isValid(userId)){
+            return new NextResponse("invalid userId", { status: 404 });
+        }
+        await connect();
+
+        const deleteUser = await User.findByIdAndDelete(
+            new Types.ObjectId(userId)
+        )
+        if(!deleteUser){
+            return new NextResponse("User not found in the database", { status: 404 });
+        }
+        return new NextResponse(JSON.stringify({ message: "user deleted", user: deleteUser }), { status: 200 });
+    }
+    catch (err: unknown) {
+        // Check if err is an instance of Error to safely access message
+        const errorMessage = err instanceof Error ? err.message : "Unknown error";
+        return new NextResponse("Error creating user: " + errorMessage, {
+          status: 500,
+        });
+      }
 
 }
