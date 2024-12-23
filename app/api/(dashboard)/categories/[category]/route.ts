@@ -8,7 +8,8 @@ export const PATCH = async (
   request: Request,
   context: { params: { category: string } }
 ) => {
-  const categoryId = await context.params.category; // Await the params if necessary
+  const updatedId = await context.params; // Await the params if necessary
+  const categoryId = updatedId.category; // Extract the categoryId from the URL parameter
   //params.category refers the [category] in the folder
   try {
     const body = await request.json();
@@ -74,7 +75,8 @@ export const DELETE = async (
   request: Request,
   context: { params: { category: string } }
 ) => {
-  const categoryId = await context.params.category;
+    const updatedId = await context.params; // Await the params if necessary
+    const categoryId = updatedId.category;
   try {
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get("userId");
