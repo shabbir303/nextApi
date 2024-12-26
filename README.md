@@ -6,5 +6,6 @@
 
 # URL for GET
 - user local server for GET (http://localhost:3000/api/users)
+- categories local server for GET (http://localhost:3000/api/categories?userId=6767acc93ff98c78b77ef353)
 
 
